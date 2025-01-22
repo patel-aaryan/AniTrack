@@ -1,8 +1,9 @@
-import { TAnimePreview } from "@/types/anime";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Badge } from "./ui/badge";
-import { Trophy, Heart } from "lucide-react";
-import Image from "next/image";
+import Image from "next/image"
+import { Heart, Trophy } from "lucide-react"
+
+import { TAnimePreview } from "@/types/anime"
+import { Badge } from "./ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 
 export const AnimePreview = ({
   anime_id,
@@ -52,5 +53,5 @@ export const AnimePreview = ({
         </div>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
