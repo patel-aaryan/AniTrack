@@ -1,1 +1,2 @@
+cd web-app
 npm run lint-staged
