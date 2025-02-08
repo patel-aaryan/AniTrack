@@ -1,27 +1,38 @@
-import db from "../db"
+import sql from "../db"
 
 import "server-only"
 
-import { RowDataPacket } from "mysql2"
+import { IAnimePreview } from "@/types/anime"
 
-import { TAnimePreview } from "@/types/anime"
-
-interface TAnimePreviewRaw
-  extends Omit<TAnimePreview, "genres">,
-    RowDataPacket {
+interface IAnimePreviewRaw extends Omit<IAnimePreview, "genres"> {
   genre: string | null
 }
 
 export async function getTopAnime(
   limit: number = 100,
   offset: number = 0
-): Promise<TAnimePreview[]> {
-  const [rows] = await db.query<TAnimePreviewRaw[]>(
-    `SELECT anime_id, title, image_url, genre, score, \`rank\` FROM anime_list ORDER BY \`rank\` ASC LIMIT ${limit} OFFSET ${offset}`
-  )
+): Promise<IAnimePreview[]> {
+  const response = (await sql`
+SELECT 
+  anime.id, 
+  anime.name, 
+  anime.genre, 
+  anime.image_url, 
+  AVG(reviews.rating) AS avg_rating
+FROM 
+    anime
+LEFT JOIN 
+    reviews ON anime.id = reviews.anime_id
+GROUP BY 
+    anime.id, anime.name, anime.genre, anime.image_url
+ORDER BY 
+    avg_rating DESC NULLS LAST
+LIMIT ${limit} OFFSET ${offset}
+`) as IAnimePreviewRaw[]
+  console.log(response)
   // split the genre into an array
-  return rows.map((row) => ({
-    ...row,
-    genres: row.genre ? row.genre.split(",") : [],
+  return response.map((anime) => ({
+    ...anime,
+    genres: anime.genre ? anime.genre.split(",") : [],
   }))
 }

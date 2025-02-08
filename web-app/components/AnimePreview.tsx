@@ -1,52 +1,45 @@
 import Image from "next/image"
-import { Heart, Trophy } from "lucide-react"
+import { Star } from "lucide-react"
 
-import { TAnimePreview } from "@/types/anime"
+import { IAnimePreview } from "@/types/anime"
 import { Badge } from "./ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 
 export const AnimePreview = ({
-  anime_id,
-  title,
+  id,
+  name,
   image_url,
   genres,
-  score,
-  rank,
-}: TAnimePreview) => {
+  avg_rating,
+}: IAnimePreview) => {
   return (
-    <Card key={anime_id} className="overflow-hidden">
+    <Card key={id} className="overflow-hidden">
       <div className="relative">
         <Image
           src={image_url}
-          alt={title}
+          alt={name}
           className="w-full h-44 object-cover"
           width={256}
           height={176}
         />
         <div className="absolute top-1 right-1">
           <Badge variant="secondary">
-            <Heart className="w-3 h-3 mr-1 inline-block fill-current" />
-            {score}
-          </Badge>
-        </div>
-        <div className="absolute top-1 left-1">
-          <Badge
-            variant="secondary"
-            className="bg-yellow-500/90 text-white text-xs"
-          >
-            <Trophy className="w-3 h-3 mr-1 inline-block" />#{rank}
+            <Star className="w-3 h-3 mr-1 inline-block text-yellow-400 fill-current" />
+            {avg_rating
+              ? (Math.round(avg_rating * 100) / 100).toFixed(2)
+              : "N/A"}
           </Badge>
         </div>
       </div>
 
       <CardHeader className="px-3 pt-4 pb-2">
-        <CardTitle>{title}</CardTitle>
+        <CardTitle>{name}</CardTitle>
       </CardHeader>
 
       <CardContent className="p-3 pt-1">
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-wrap gap-1.5">
           {genres.map((genre) => (
-            <Badge key={genre} className="px-1.5 py-0">
+            <Badge key={genre} variant="secondary" className="px-1.5 py-0">
               {genre}
             </Badge>
           ))}

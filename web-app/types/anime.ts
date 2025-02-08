@@ -1,8 +1,7 @@
-export interface TAnimePreview {
-  anime_id: number
-  title: string
+export interface IAnimePreview {
+  id: number
+  name: string
   image_url: string
   genres: string[]
-  score: number | null
-  rank: number | null
+  avg_rating: number | null
 }
