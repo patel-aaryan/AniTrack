@@ -33,3 +33,5 @@ INSERT INTO user_anime_status (user_id, anime_id, status) VALUES
 (7, 7, 2),
 (8, 8, 2),
 (9, 9, 3);
+
+INSERT INTO anime SELECT * FROM read_csv('data/sampleData.csv');
