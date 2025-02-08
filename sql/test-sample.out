@@ -1,0 +1,51 @@
+ id |              name               |                        image_url                         |     avg_rating     
+----+---------------------------------+-------------------------------+----------------------------------------------------------+--------------------
+  1 | Cowboy Bebop                    | https://cdn.myanimelist.net/images/anime/4/19644.jpg     | 8.0000000000000000
+  2 | Cowboy Bebop: Tengoku no Tobira | https://cdn.myanimelist.net/images/anime/1439/93480.jpg  | 8.0000000000000000
+  7 | Hachimitsu to Clover            | https://cdn.myanimelist.net/images/anime/1301/133577.jpg | 8.0000000000000000
+  3 | Trigun                          | https://cdn.myanimelist.net/images/anime/7/20310.jpg     | 8.0000000000000000
+  9 | Initial D Fourth Stage          | https://cdn.myanimelist.net/images/anime/9/10521.jpg     | 6.0000000000000000
+(5 rows)
+
+ id |     name     |   average_rating   
+----+--------------+--------------------
+  1 | Cowboy Bebop | 8.0000000000000000
+(1 row)
+
+INSERT 0 1
+ id |              name               |                                      description                                       |                        image_url                         | is_verified 
+----+---------------------------------+--------------------------------------+----------------------------------------------------------------------------------------+----------------------------------------------------------+-------------
+  1 | Cowboy Bebop                    | Crime is timeless. By the year 2071, humanity has expanded across the galaxy...        | https://cdn.myanimelist.net/images/anime/4/19644.jpg     | t
+  2 | Cowboy Bebop: Tengoku no Tobira | Another day, another bounty—such is the life of the often unlucky crew of the Bebop... | https://cdn.myanimelist.net/images/anime/1439/93480.jpg  | t
+  3 | Trigun                          | Vash the Stampede is the man with a $$60,000,000,000 bounty on his head...             | https://cdn.myanimelist.net/images/anime/7/20310.jpg     | t
+  4 | Witch Hunter Robin              | Robin Sena is a powerful craft user drafted into the STNJ...                           | https://cdn.myanimelist.net/images/anime/10/19969.jpg    | t
+  5 | Bouken Ou Beet                  | It is the dark century and the people are suffering under the rule of the devil...     | https://cdn.myanimelist.net/images/anime/7/21569.jpg     | f
+  6 | Eyeshield 21                    | Shy, reserved, and small-statured, Deimon High School student Sena Kobayakawa...       | https://cdn.myanimelist.net/images/anime/1079/133529.jpg | t
+  7 | Hachimitsu to Clover            | Yuuta Takemoto, a sophomore at an arts college...                                      | https://cdn.myanimelist.net/images/anime/1301/133577.jpg | t
+  8 | Hungry Heart: Wild Striker      | As the younger brother of Japanese soccer star Seisuke Kanou...                        | https://cdn.myanimelist.net/images/anime/12/49655.jpg    | t
+  9 | Initial D Fourth Stage          | Takumi Fujiwara finally joins Ryousuke and Keisuke Takahashi...                        | https://cdn.myanimelist.net/images/anime/9/10521.jpg     | f
+ 10 | Monster                         | Dr. Kenzou Tenma, an elite neurosurgeon recently engaged...                            | https://cdn.myanimelist.net/images/anime/10/18793.jpg    | t
+ 11 | Death Note test                 | test                                                                                   | https://cdn.myanimelist.net/images/test.jpg              | f
+(11 rows)
+
+DELETE 1
+ id |              name               |                                      description                                       |                        image_url                         | is_verified 
+----+---------------------------------+--------------------------------------+----------------------------------------------------------------------------------------+----------------------------------------------------------+-------------
+  1 | Cowboy Bebop                    | Crime is timeless. By the year 2071, humanity has expanded across the galaxy...        | https://cdn.myanimelist.net/images/anime/4/19644.jpg     | t
+  2 | Cowboy Bebop: Tengoku no Tobira | Another day, another bounty—such is the life of the often unlucky crew of the Bebop... | https://cdn.myanimelist.net/images/anime/1439/93480.jpg  | t
+  3 | Trigun                          | Vash the Stampede is the man with a $$60,000,000,000 bounty on his head...             | https://cdn.myanimelist.net/images/anime/7/20310.jpg     | t
+  4 | Witch Hunter Robin              | Robin Sena is a powerful craft user drafted into the STNJ...                           | https://cdn.myanimelist.net/images/anime/10/19969.jpg    | t
+  5 | Bouken Ou Beet                  | It is the dark century and the people are suffering under the rule of the devil...     | https://cdn.myanimelist.net/images/anime/7/21569.jpg     | f
+  6 | Eyeshield 21                    | Shy, reserved, and small-statured, Deimon High School student Sena Kobayakawa...       | https://cdn.myanimelist.net/images/anime/1079/133529.jpg | t
+  7 | Hachimitsu to Clover            | Yuuta Takemoto, a sophomore at an arts college...                                      | https://cdn.myanimelist.net/images/anime/1301/133577.jpg | t
+  8 | Hungry Heart: Wild Striker      | As the younger brother of Japanese soccer star Seisuke Kanou...                        | https://cdn.myanimelist.net/images/anime/12/49655.jpg    | t
+  9 | Initial D Fourth Stage          | Takumi Fujiwara finally joins Ryousuke and Keisuke Takahashi...                        | https://cdn.myanimelist.net/images/anime/9/10521.jpg     | f
+ 10 | Monster                         | Dr. Kenzou Tenma, an elite neurosurgeon recently engaged...                            | https://cdn.myanimelist.net/images/anime/10/18793.jpg    | t
+(10 rows)
+
+ status |         updated_at         | anime_id 
+--------+----------------------------+----------
+      2 | 2025-02-07 23:18:38.692671 |        1
+      3 | 2025-02-07 23:18:38.692671 |        2
+(2 rows)
+

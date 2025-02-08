@@ -39,8 +39,8 @@ GROUP BY
 -- Feature 3:
 
 -- Query 3: Insert new anime
-INSERT INTO anime (name, genre, description, image_url, is_verified)  
-VALUES ('Death Note test', 'test', 'test', 'test', FALSE);
+INSERT INTO anime (name, description, image_url, is_verified)  
+VALUES ('Death Note test', 'test', 'https://cdn.myanimelist.net/images/test.jpg', FALSE);
 
 SELECT * FROM anime;
 
