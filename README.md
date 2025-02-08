@@ -31,29 +31,18 @@ Before setting up the application, ensure you have the following installed:
    npm install
    ```
 
-3. **Configure the Database**:
+3. **Connect to the Database**:
 
-   - Create a PostgreSQL database named `anime_social_platform`.
-   - Update the database configuration in `config/database.js` with your PostgreSQL credentials:
+   - Authenticate to the database hosted on Neon with the following:
 
-     ```javascript
-     module.exports = {
-       host: "your_db_host",
-       port: 5432,
-       database: "anime_social_platform",
-       user: "your_db_user",
-       password: "your_db_password",
-     };
-     ```
+   ```bash
+   psql -U postgres neon_connection_link
+   ```
 
-4. **Load Sample Data**:
-
-   - The sample data is sourced from the [MyAnimeList Dataset](https://www.kaggle.com/datasets/dbdmobile/myanimelist-dataset).
-   - Ensure the dataset is placed in the `data/` directory.
-   - Run the script to populate the database:
+   - Then, execute the following
 
      ```bash
-     node scripts/loadSampleData.js
+     \copy anime FROM 'path\to\project\cs348\data\AnimeListSampleData.csv' DELIMITER ',' CSV HEADER
      ```
 
 ## Running the Application
