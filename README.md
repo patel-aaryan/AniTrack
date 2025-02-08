@@ -41,9 +41,9 @@ Before setting up the application, ensure you have the following installed:
 
    - Then, execute the following
 
-     ```bash
-     \copy anime FROM 'path\to\project\cs348\data\AnimeListSampleData.csv' DELIMITER ',' CSV HEADER
-     ```
+   ```bash
+   \copy anime FROM 'path\to\project\cs348\data\AnimeListSampleData.csv' DELIMITER ',' CSV HEADER
+   ```
 
 ## Running the Application
 
