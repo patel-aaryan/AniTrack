@@ -1,10 +1,25 @@
 CREATE TABLE anime (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    genre VARCHAR(255),
     description TEXT,
-    image_url VARCHAR(500),
+    image_url VARCHAR(500) CHECK (
+        image_url LIKE 'http%'
+        AND image_url LIKE '%.%'
+    ),
     is_verified BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+CREATE TABLE genres (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL
+);
+
+CREATE TABLE anime_genre (
+    anime_id INT NOT NULL,
+    genre_id INT NOT NULL,
+    PRIMARY KEY (anime_id, genre_id),
+    FOREIGN KEY (anime_id) REFERENCES anime(id) ON DELETE CASCADE,
+    FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE
 );
 
 CREATE TABLE users (

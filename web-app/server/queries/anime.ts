@@ -4,10 +4,6 @@ import "server-only"
 
 import { IAnimePreview } from "@/types/anime"
 
-interface IAnimePreviewRaw extends Omit<IAnimePreview, "genres"> {
-  genre: string | null
-}
-
 export async function getTopAnime(
   limit: number = 100,
   offset: number = 0
@@ -16,23 +12,33 @@ export async function getTopAnime(
 SELECT 
   anime.id, 
   anime.name, 
-  anime.genre, 
   anime.image_url, 
-  AVG(reviews.rating) AS avg_rating
+  AVG(reviews.rating) AS avg_rating,
+  COALESCE(
+    JSONB_AGG(
+      DISTINCT JSONB_BUILD_OBJECT(
+        'id', genres.id,
+        'name', genres.name
+      )
+    ) FILTER (WHERE genres.id IS NOT NULL),
+    '[]'
+  ) AS genres
 FROM 
     anime
 LEFT JOIN 
     reviews ON anime.id = reviews.anime_id
+LEFT JOIN
+    anime_genre ON anime.id = anime_genre.anime_id
+LEFT JOIN
+    genres ON anime_genre.genre_id = genres.id
 GROUP BY 
-    anime.id, anime.name, anime.genre, anime.image_url
+    anime.id, anime.name, anime.image_url
 ORDER BY 
     avg_rating DESC NULLS LAST
 LIMIT ${limit} OFFSET ${offset}
-`) as IAnimePreviewRaw[]
+`) as IAnimePreview[]
+
   console.log(response)
-  // split the genre into an array
-  return response.map((anime) => ({
-    ...anime,
-    genres: anime.genre ? anime.genre.split(",") : [],
-  }))
+
+  return response
 }

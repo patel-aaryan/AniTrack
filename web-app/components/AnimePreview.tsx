@@ -39,8 +39,8 @@ export const AnimePreview = ({
       <CardContent className="p-3 pt-1">
         <div className="flex flex-wrap gap-1.5">
           {genres.map((genre) => (
-            <Badge key={genre} variant="secondary" className="px-1.5 py-0">
-              {genre}
+            <Badge key={genre.id} variant="secondary" className="px-1.5 py-0">
+              {genre.name}
             </Badge>
           ))}
         </div>
