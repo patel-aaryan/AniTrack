@@ -4,7 +4,6 @@
 SELECT 
     anime.id, 
     anime.name, 
-    anime.genre, 
     anime.image_url, 
     AVG(reviews.rating) AS avg_rating
 FROM 
@@ -12,7 +11,7 @@ FROM
 LEFT JOIN 
     reviews ON anime.id = reviews.anime_id
 GROUP BY 
-    anime.id, anime.name, anime.genre, anime.image_url
+    anime.id, anime.name, anime.image_url
 ORDER BY 
     avg_rating DESC NULLS LAST
 LIMIT 5;
