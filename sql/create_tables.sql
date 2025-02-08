@@ -32,7 +32,7 @@ CREATE TABLE users (
 
 CREATE TABLE reviews (
     user_id INT REFERENCES users(id) ON DELETE CASCADE,
-    anime_id INT REFERENCES animes(id) ON DELETE CASCADE,
+    anime_id INT REFERENCES anime(id) ON DELETE CASCADE,
     rating INT CHECK (rating BETWEEN 1 AND 10),
     comment TEXT,
     PRIMARY KEY (user_id, anime_id)
@@ -40,7 +40,7 @@ CREATE TABLE reviews (
 
 CREATE TABLE user_anime_status (
     user_id INT REFERENCES users(id) ON DELETE CASCADE,
-    anime_id INT REFERENCES animes(id) ON DELETE CASCADE,
+    anime_id INT REFERENCES anime(id) ON DELETE CASCADE,
     status INT CHECK (status BETWEEN 1 AND 3),
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id, anime_id)
@@ -52,7 +52,3 @@ CREATE TABLE friendship (
     PRIMARY KEY (user_id1, user_id2),
     CHECK (user_id1 <> user_id2)
 )
-
-
-
-
