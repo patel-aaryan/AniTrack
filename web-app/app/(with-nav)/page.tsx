@@ -1,8 +1,9 @@
 import { getTopAnime } from "@/server/queries/anime"
-import { AnimePreview } from "@/components/AnimePreview"
+import { AnimePreview } from "@/components/anime-preview"
 
 export default async function Home() {
   const anime = await getTopAnime()
+
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <header className="mb-6">

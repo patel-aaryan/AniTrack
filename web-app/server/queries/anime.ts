@@ -1,4 +1,4 @@
-import sql from "../db"
+import pool from "../db"
 
 import "server-only"
 
@@ -8,7 +8,8 @@ export async function getTopAnime(
   limit: number = 100,
   offset: number = 0
 ): Promise<IAnimePreview[]> {
-  const response = (await sql`
+  const { rows } = (await pool.query(
+    `
 SELECT 
   anime.id, 
   anime.name, 
@@ -35,10 +36,10 @@ GROUP BY
     anime.id, anime.name, anime.image_url
 ORDER BY 
     avg_rating DESC NULLS LAST
-LIMIT ${limit} OFFSET ${offset}
-`) as IAnimePreview[]
+LIMIT $1 OFFSET $2
+`,
+    [limit, offset]
+  )) as { rows: IAnimePreview[] }
 
-  console.log(response)
-
-  return response
+  return rows
 }
