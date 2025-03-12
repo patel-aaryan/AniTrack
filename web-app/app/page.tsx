@@ -1,5 +1,5 @@
 import { getTopAnime } from "@/server/queries/anime"
-import { AnimePreview } from "@/components/AnimePreview"
+import { AnimePreview } from "@/components/anime-preview"
 
 export default async function Home() {
   const anime = await getTopAnime()
