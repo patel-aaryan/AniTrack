@@ -40,10 +40,12 @@ Before setting up the application, ensure you have the following installed:
   psql "postgresql://neondb_owner:npg_57rRMbpQwjOA@ep-bitter-cherry-a84kfw3m-pooler.eastus2.azure.neon.tech/neondb?sslmode=require"
   ```
   Run any sql command to interact with the database.
-- Note: **Tables with sample data are already created in the database**. Since it's hosted on Neon, you don't need to create the tables yourself. But if you want to test creating tables, you can drop all tables, and the run `/sql/create_tables.sql` to create the tables. To populate the tables, either
+- Note: **Tables with sample data are already created in the database**. Since it's hosted on Neon, you don't need to create the tables yourself. But if you want to test creating tables, you can drop all tables, and the run `/sql/create_tables.sql` to create the tables. To populate the tables, run
 
-  - `/sql/populate_tables.sql` to populate all the tables with sample data
-  - run `copy table_name FROM 'path/to/sample-data/data.csv' DELIMITER ',' CSV HEADER` to populate a specific table with sample data
+   ```bash
+   \copy table_name FROM 'path/to/sample-data/data.csv' DELIMITER ',' CSV HEADER`
+   ```
+  to populate a specific table with sample data
 
 - To execute the any sql file from local machine and check the output, run the following command:
 
