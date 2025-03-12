@@ -1,6 +1,7 @@
 import Link from "next/link"
 
 import { auth } from "@/lib/auth"
+import { buttonVariants } from "./ui/button"
 import { UserAvatar } from "./user-avatar"
 
 export async function NavBar() {
@@ -19,7 +20,12 @@ export async function NavBar() {
             image={session.user.image}
           />
         ) : (
-          <Link href="/login">Login</Link>
+          <Link
+            className={buttonVariants({ variant: "default" })}
+            href="/login"
+          >
+            Login
+          </Link>
         )}
       </div>
     </nav>
