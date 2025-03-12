@@ -4,7 +4,8 @@ CREATE TABLE IF NOT EXISTS users (
   name VARCHAR(255),
   email VARCHAR(255),
   "emailVerified" TIMESTAMPTZ,
-  image TEXT
+  image TEXT,
+  is_admin BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE IF NOT EXISTS accounts (
