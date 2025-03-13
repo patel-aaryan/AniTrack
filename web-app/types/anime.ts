@@ -8,3 +8,11 @@ export interface IAnimePreview {
   }[]
   avg_rating: number | null
 }
+
+export interface IAnime {
+  id: number
+  name: string
+  description: string
+  image_url: string
+  is_verified: boolean
+}

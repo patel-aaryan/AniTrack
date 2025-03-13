@@ -17,6 +17,15 @@ export async function NavBar() {
           <Link className={buttonVariants({ variant: "default" })} href="/add">
             Add Anime
           </Link>
+          
+          <Link
+            className={buttonVariants({ variant: "default" })}
+            href="/admin"
+          >
+            Admin
+          </Link>
+
+          
           {session?.user ? (
             <UserAvatar
               name={session.user.name!}
