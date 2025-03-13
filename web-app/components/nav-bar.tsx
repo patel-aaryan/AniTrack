@@ -14,6 +14,10 @@ export async function NavBar() {
         </Link>
 
         <div className="flex items-center gap-4">
+          <Link className={buttonVariants({ variant: "default" })} href="/add">
+            Add Anime
+          </Link>
+          
           <Link
             className={buttonVariants({ variant: "default" })}
             href="/admin"
@@ -21,6 +25,7 @@ export async function NavBar() {
             Admin
           </Link>
 
+          
           {session?.user ? (
             <UserAvatar
               name={session.user.name!}
