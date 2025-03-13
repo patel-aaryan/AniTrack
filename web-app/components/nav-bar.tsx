@@ -13,20 +13,25 @@ export async function NavBar() {
           <span className="text-2xl font-bold">AniTrack</span>
         </Link>
 
-        {session?.user ? (
-          <UserAvatar
-            name={session.user.name!}
-            email={session.user.email!}
-            image={session.user.image}
-          />
-        ) : (
-          <Link
-            className={buttonVariants({ variant: "default" })}
-            href="/login"
-          >
-            Login
+        <div className="flex items-center gap-4">
+          <Link className={buttonVariants({ variant: "default" })} href="/add">
+            Add Anime
           </Link>
-        )}
+          {session?.user ? (
+            <UserAvatar
+              name={session.user.name!}
+              email={session.user.email!}
+              image={session.user.image}
+            />
+          ) : (
+            <Link
+              className={buttonVariants({ variant: "default" })}
+              href="/login"
+            >
+              Login
+            </Link>
+          )}
+        </div>
       </div>
     </nav>
   )
