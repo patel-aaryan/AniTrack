@@ -35,7 +35,7 @@ GROUP BY
     anime.id, anime.name;
 
 
--- Feature 3:
+-- Feature 3: Insert/Delete
 
 -- Query 3: Insert new anime
 INSERT INTO anime (name, description, image_url, is_verified)  
@@ -43,20 +43,45 @@ VALUES ('Death Note test', 'test', 'https://cdn.myanimelist.net/images/test.jpg'
 
 SELECT * FROM anime;
 
-
--- Feature 4:
-
 -- Query 4: delete newly added anime -- could be changed to delete specific one
 DELETE FROM anime
 WHERE id = (SELECT MAX(id) FROM anime);
 
 SELECT * FROM anime;
 
+-- Feature 4: Find Friends based on Shared Anime
+
+-- Query 5: Find potential friends for user 2 to add
+WITH UserWatched AS (
+    SELECT anime_id
+    FROM user_anime_status
+    WHERE user_id = 2 AND status = 3
+),
+PotentialFriends AS (
+    SELECT uas.user_id, COUNT(uas.anime_id) AS shared_anime_count
+    FROM user_anime_status AS uas
+    JOIN UserWatched uw ON uas.anime_id = uw.anime_id
+    WHERE uas.user_id <> 2 AND uas.status = 3
+    GROUP BY uas.user_id
+),
+FilteredFriends AS (
+    SELECT pf.user_id, pf.shared_anime_count
+    FROM PotentialFriends pf
+    LEFT JOIN friendship f 
+    ON (f.user_id1 = 2 AND f.user_id2 = pf.user_id)
+    OR (f.user_id2 = 2 AND f.user_id1 = pf.user_id)
+    WHERE f.user_id1 IS NULL
+)
+SELECT u.id, u.name, u.email, ff.shared_anime_count
+FROM FilteredFriends ff
+JOIN users u ON ff.user_id = u.id
+ORDER BY ff.shared_anime_count DESC
+LIMIT 10;
 
 
 -- Feature 5:
 
--- Query 5: View watching history for user
+-- Query 6: View watching history for user
 
 SELECT
     uas.status,
