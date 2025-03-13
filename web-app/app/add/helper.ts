@@ -1,7 +1,5 @@
 "use server"
 
-import { redirect } from "next/navigation"
-
 import { addAnime } from "@/server/queries/add_anime"
 
 export async function submitNewAnime(formData: FormData) {
@@ -10,5 +8,4 @@ export async function submitNewAnime(formData: FormData) {
   const img = formData.get("img") as string
 
   await addAnime(name, desc, img)
-  redirect("/")
 }
