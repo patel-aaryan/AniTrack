@@ -9,24 +9,33 @@ export async function NavBar() {
   return (
     <nav className="bg-white border-b">
       <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
-        <Link href="/dashboard/events" className="flex items-center gap-4">
+        <Link href="/" className="flex items-center gap-4">
           <span className="text-2xl font-bold">AniTrack</span>
         </Link>
 
-        {session?.user ? (
-          <UserAvatar
-            name={session.user.name!}
-            email={session.user.email!}
-            image={session.user.image}
-          />
-        ) : (
+        <div className="flex items-center gap-4">
           <Link
             className={buttonVariants({ variant: "default" })}
-            href="/login"
+            href="/admin"
           >
-            Login
+            Admin
           </Link>
-        )}
+
+          {session?.user ? (
+            <UserAvatar
+              name={session.user.name!}
+              email={session.user.email!}
+              image={session.user.image}
+            />
+          ) : (
+            <Link
+              className={buttonVariants({ variant: "default" })}
+              href="/login"
+            >
+              Login
+            </Link>
+          )}
+        </div>
       </div>
     </nav>
   )
