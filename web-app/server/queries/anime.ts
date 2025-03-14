@@ -43,3 +43,44 @@ LIMIT $1 OFFSET $2
 
   return rows
 }
+
+export interface IAnimeDetails extends IAnimePreview {
+  description: string
+}
+
+export async function getAnimeById(id: number): Promise<IAnimeDetails | null> {
+  const { rows } = await pool.query(
+    `
+    SELECT 
+      anime.id, 
+      anime.name,
+      anime.description, 
+      anime.image_url, 
+      AVG(reviews.rating) AS avg_rating,
+      COALESCE(
+        JSONB_AGG(
+          DISTINCT JSONB_BUILD_OBJECT(
+            'id', genres.id,
+            'name', genres.name
+          )
+        ) FILTER (WHERE genres.id IS NOT NULL),
+        '[]'
+      ) AS genres
+    FROM 
+      anime
+    LEFT JOIN 
+      reviews ON anime.id = reviews.anime_id
+    LEFT JOIN
+      anime_genre ON anime.id = anime_genre.anime_id
+    LEFT JOIN
+      genres ON anime_genre.genre_id = genres.id
+    WHERE
+      anime.id = $1
+    GROUP BY 
+      anime.id, anime.name, anime.description, anime.image_url
+    `,
+    [id]
+  )
+
+  return rows[0] || null
+}
