@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 
 import { IAnime } from "@/types/anime"
+import { fetchAnime } from "@/server/queries/admin"
 import { Button } from "@/components/ui/button"
 import {
   Table,
@@ -15,8 +16,11 @@ import {
 import SearchForm from "@/components/search-form"
 import VerifyPopup from "@/components/verify-popup"
 
+// type FilterType = "all" | "verified" | "unverified"
+
 export default function Admin() {
   const [animeData, setAnimeData] = useState<IAnime[]>()
+  // const [activeFilter, setActiveFilter] = useState<FilterType>("all")
 
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [dialogHeader, setDialogHeader] = useState("")
@@ -27,16 +31,6 @@ export default function Admin() {
   const [noText, setNoText] = useState("")
   const [selectedAnimeId, setSelectedAnimeId] = useState(-1)
   const [isVerified, setIsVerified] = useState(false)
-
-  async function fetchAnime(): Promise<IAnime[]> {
-    const response = await fetch("/api/anime", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ limit: 100, offset: 0 }),
-    })
-    const result = await response.json()
-    return result.data
-  }
 
   useEffect(() => {
     const getAnimeData = async () => {
