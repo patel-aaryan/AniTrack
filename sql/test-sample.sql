@@ -20,22 +20,19 @@ LIMIT 5;
 
 -- Feature 2:
 
--- Query 2: Average Rating for a Specific Anime (ID = 1)
-SELECT 
-    anime.id, 
-    anime.name, 
-    AVG(reviews.rating) AS average_rating
-FROM 
-    anime
-LEFT JOIN 
-    reviews ON anime.id = reviews.anime_id
-WHERE 
-    anime.id = 1
-GROUP BY 
-    anime.id, anime.name;
+-- Query 2: Rate an anime, in this example user id 1 rating anime id 2
+INSERT INTO reviews (user_id, anime_id, rating, comment)
+VALUES (1, 2, 9, 'Amazing anime with a great story!');
+
+SELECT user_id, anime_id, rating, comment
+FROM reviews
+WHERE user_id = 1 AND anime_id = 2;
+
+DELETE FROM reviews
+WHERE user_id = 1 AND anime_id = 2;
 
 
--- Feature 3: Insert/Delete
+-- Feature 3: Insert/Delete Animes
 
 -- Query 3: Insert new anime
 INSERT INTO anime (name, description, image_url, is_verified)  
