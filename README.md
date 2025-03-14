@@ -1,11 +1,14 @@
-# CS 348 Project - Milestone 1
+# CS 348 Project - Milestone 2
 
 ## Features
 
-- **List Popular Anime**: Provides users with ranked list of top 100 anime based on reviews.
-- **Anime Ratings**: Get average rating for specified anime based on user ratings.
-- **Adding New Anime**: Contribute to the community by adding new anime titles.
-- **Delete Anime**: Administrative feature of removing anime listings.
+- [x] **List Popular Anime**: Provides users with ranked list of top 100 anime based on reviews.
+    - Implementation can be found in `./web-app/server/queries/anime.ts`
+- [x] **Review Anime**: Add a rating and comment for a specified anime
+    - Implementation can be found in `./web-app/server/queries/reviews.ts`
+- [x] **Adding New Anime**: Contribute to the community by adding new anime titles.
+    - Implementation can be found in `./web-app/server/queries/add_anime.ts`
+- **Find Friends based on Shared Anime**: Helps users discover potential friends based on shared anime interests
 - **View Watch History**: User can view all anime they watched, are watching, or want to watch.
 
 ## Prerequisites
@@ -52,6 +55,15 @@ Before setting up the application, ensure you have the following installed:
   ```bash
   psql "postgresql://neondb_owner:npg_57rRMbpQwjOA@ep-bitter-cherry-a84kfw3m-pooler.eastus2.azure.neon.tech/neondb?sslmode=require" -f <path/to/file.sql> -o <path/to/file.out>
   ```
+
+## Production dataset
+- Note: **Production dataset already been generated**. But if you want to generate it again, run the `clean_data.py` script.
+- The tables have already been created in Neon so to load the production dataset into the database, run 
+
+   ```bash
+   \copy table_name FROM 'path/to/production-data/data.csv' DELIMITER ',' CSV HEADER`
+   ```
+  to populate a specific table with production data
 
 ## Running the Application
 
