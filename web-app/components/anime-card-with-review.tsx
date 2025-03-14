@@ -5,14 +5,14 @@ import { Card, CardContent } from "./ui/card"
 
 interface AnimeCardWithReviewProps {
   name: string
-  imageUrl: string
+  image: string
   rating?: number
   review?: string
 }
 
 export const AnimeCardWithReview = ({
   name,
-  imageUrl,
+  image,
   rating,
   review,
 }: AnimeCardWithReviewProps) => {
@@ -20,7 +20,7 @@ export const AnimeCardWithReview = ({
     <Card className="overflow-hidden">
       <div className="relative">
         <Image
-          src={imageUrl}
+          src={image}
           alt={name}
           className="w-full h-[225px] object-cover"
           width={256}

@@ -1,7 +1,7 @@
 export interface IAnimePreview {
   id: number
   name: string
-  imageUrl: string
+  image: string
   genres: {
     id: number
     name: string

@@ -26,7 +26,7 @@ export default async function UserPage({
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="flex flex-col items-center">
-        <Avatar size={128} src={userInfo.image_url} alt={userInfo.name} />
+        <Avatar size={128} src={userInfo.image} alt={userInfo.name} />
         <h1 className="text-2xl font-bold">{userInfo.name}</h1>
         <div className="flex gap-2 mt-2">
           <Badge variant="outline" className="flex gap-1 items-center">
