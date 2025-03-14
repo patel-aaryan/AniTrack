@@ -31,20 +31,16 @@ WHERE user_id = 1 AND anime_id = 2;
 DELETE FROM reviews
 WHERE user_id = 1 AND anime_id = 2;
 
-
 -- Feature 3: Insert/Delete Animes
 
 -- Query 3: Insert new anime
 INSERT INTO anime (name, description, image_url, is_verified)  
-VALUES ('Death Note test', 'test', 'https://cdn.myanimelist.net/images/test.jpg', FALSE);
-
-SELECT * FROM anime;
+VALUES ('Death Note test', 'test', 'https://cdn.myanimelist.net/images/test.jpg', FALSE)
+RETURNING id;
 
 -- Query 4: delete newly added anime -- could be changed to delete specific one
 DELETE FROM anime
-WHERE id = (SELECT MAX(id) FROM anime);
-
-SELECT * FROM anime;
+WHERE name = 'Death Note test';
 
 -- Feature 4: Find Friends based on Shared Anime
 
