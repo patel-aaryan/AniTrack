@@ -57,16 +57,9 @@ SELECT * FROM anime;
 -- Feature 5:
 
 -- Query 5: View watching history for user
-
-SELECT
-    uas.status,
-    uas.updated_at,
-    uas.anime_id
-FROM 
-    user_anime_status AS uas
-JOIN 
-    anime AS a ON uas.anime_id = a.id
-WHERE 
-    uas.user_id = 1
-ORDER BY 
-    uas.updated_at DESC;
+SELECT anime.name AS name, anime.image_url AS "imageUrl", uas.status AS status, reviews.rating AS rating, reviews.comment AS comment
+FROM user_anime_status uas
+LEFT JOIN reviews ON uas.anime_id = reviews.anime_id AND uas.user_id = reviews.user_id
+JOIN anime ON uas.anime_id = anime.id
+WHERE uas.user_id = 1 AND uas.status = 1
+ORDER BY uas.updated_at DESC
