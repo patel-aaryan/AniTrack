@@ -15,8 +15,9 @@ df = (
   .assign(Genres=df.Genres.str.split(','))
   .explode("Genres")
 )
-# Set null genres as UNKNOWN
-df["Genres"] = df["Genres"].fillna("UNKNOWN")
+# Replace UNKNOWN with NA
+df["Genres"] = df["Genres"].str.strip()
+df.replace("UNKNOWN", pd.NA, inplace=True)
 
 # Create anime csv
 anime = (
@@ -39,19 +40,18 @@ genres = pd.DataFrame({"name":
   .drop_duplicates()
   .dropna()
   .reset_index(drop=True)
-}) # Note: UNKNOWN will be used to
+})
 genres.index.name = "id"
 genres.to_csv(os.path.join(PATH_TO_DATA, "genres.csv"))
 
 # Create anime_genre csv
 anime_genre = (
-  df[["Genres"]]
-  .reset_index()
-  .merge(genres.reset_index(), left_on="Genres", right_on="name", how="inner")
-  .rename({"index" : "anime_id", "id" : "genre_id"}, axis=1)
+  df[["Genres", "English name", "Synopsis", "Image URL"]]
+  .merge(anime.reset_index(), left_on=["English name", "Synopsis", "Image URL"], right_on=["name", "description", "image_url"])
+  [["Genres", "id"]]
+  .rename({"id" : "anime_id"}, axis=1)
+  .merge(genres.reset_index(), left_on="Genres", right_on="name")
+  .rename({"id" : "genre_id"}, axis=1)
   [["anime_id", "genre_id"]]
-  .set_index("anime_id")
 )
-anime_genre.to_csv(os.path.join(PATH_TO_DATA, "anime_genre.csv"))
-
-
+anime_genre.to_csv(os.path.join(PATH_TO_DATA, "anime_genre.csv"), index=False)
