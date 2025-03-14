@@ -63,7 +63,7 @@ export const getUserAnimeByStatus = async ({
 }: GetUserAnimeByStatusParams) => {
   const { rows } = await pool.query(
     `
-      SELECT anime.name AS name, anime.id AS id, anime.image_url AS "image", uas.status AS status, reviews.rating AS rating, reviews.comment AS comment
+      SELECT anime.name AS name, anime.id AS id, anime.image_url AS image, uas.status AS status, reviews.rating AS rating, reviews.comment AS comment
       FROM user_anime_status uas
       LEFT JOIN reviews ON uas.anime_id = reviews.anime_id AND uas.user_id = reviews.user_id
       JOIN anime ON uas.anime_id = anime.id
