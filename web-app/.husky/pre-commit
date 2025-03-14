@@ -1,2 +1,8 @@
+#!/bin/sh
+
+# Change to the web-app directory
 cd web-app
-npm run lint-staged
+
+# Use the full path to npm
+export PATH="/usr/local/bin:$PATH"
+/usr/local/bin/npm run lint-staged

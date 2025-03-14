@@ -11,7 +11,8 @@ export default async function AnimePage({
 }: {
   params: { id: string }
 }) {
-  const id = parseInt(params.id)
+  const resolvedParams = await Promise.resolve(params)
+  const id = parseInt(resolvedParams.id)
   if (isNaN(id)) {
     notFound()
   }
