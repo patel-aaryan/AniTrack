@@ -5,7 +5,9 @@ CREATE TABLE IF NOT EXISTS users (
   email VARCHAR(255),
   "emailVerified" TIMESTAMPTZ,
   image TEXT,
-  is_admin BOOLEAN NOT NULL DEFAULT FALSE
+  is_admin BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  bio TEXT
 );
 
 CREATE TABLE IF NOT EXISTS accounts (
@@ -72,7 +74,7 @@ CREATE TABLE IF NOT EXISTS reviews (
 CREATE TABLE IF NOT EXISTS user_anime_status (
     user_id INT REFERENCES users(id) ON DELETE CASCADE,
     anime_id INT REFERENCES anime(id) ON DELETE CASCADE,
-    status INT CHECK (status BETWEEN 1 AND 3),
+    status INT CHECK (status BETWEEN 1 AND 3), -- 1: Watching, 2: Completed, 3: Wishlist
     updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id, anime_id)
 );

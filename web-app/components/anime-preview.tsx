@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card"
 export const AnimePreview = ({
   id,
   name,
-  image_url,
+  image,
   genres,
   avg_rating,
 }: IAnimePreview) => {
@@ -24,7 +24,7 @@ export const AnimePreview = ({
       >
         <div className="relative">
           <Image
-            src={image_url}
+            src={image}
             alt={name}
             className="w-full h-44 object-cover"
             width={256}

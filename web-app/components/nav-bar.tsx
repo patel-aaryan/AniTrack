@@ -6,6 +6,7 @@ import { UserAvatar } from "./user-avatar"
 
 export async function NavBar() {
   const session = await auth()
+
   return (
     <nav className="bg-white border-b">
       <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
@@ -32,6 +33,7 @@ export async function NavBar() {
               name={session.user.name!}
               email={session.user.email!}
               image={session.user.image}
+              userId={session.user.id!}
             />
           ) : (
             <Link

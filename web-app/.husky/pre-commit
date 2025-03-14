@@ -4,11 +4,13 @@
 cd web-app
 
 # Check if running on Windows
-if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "win32" ] || [ "$OSTYPE" = "cygwin" ]; then
-    # Windows - use npm directly
-    npm run lint-staged
-else
-    # Unix/Linux/macOS - use full path to npm
-    export PATH="/usr/local/bin:$PATH"
-    /usr/local/bin/npm run lint-staged
-fi
+# if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "win32" ] || [ "$OSTYPE" = "cygwin" ]; then
+#     # Windows - use npm directly
+#     npm run lint-staged
+# else
+#     # Unix/Linux/macOS - use full path to npm
+#     export PATH="/usr/local/bin:$PATH"
+#     /usr/local/bin/npm run lint-staged
+# fi
+
+npm run lint-staged

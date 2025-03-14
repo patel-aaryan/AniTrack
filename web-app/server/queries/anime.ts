@@ -13,7 +13,7 @@ export async function getTopAnime(
 SELECT 
   anime.id, 
   anime.name, 
-  anime.image_url, 
+  anime.image_url AS "image", 
   AVG(reviews.rating) AS avg_rating,
   COALESCE(
     JSONB_AGG(

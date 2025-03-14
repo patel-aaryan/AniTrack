@@ -1,4 +1,5 @@
-import { LogOut } from "lucide-react"
+import Link from "next/link"
+import { LogOut, User } from "lucide-react"
 
 import { signOut } from "@/lib/auth"
 import { cn } from "@/lib/utils"
@@ -16,6 +17,7 @@ interface UserAvatarProps extends React.ComponentPropsWithoutRef<"button"> {
   name: string
   email: string
   image: string | null | undefined
+  userId: string
 }
 
 export const UserAvatar = ({
@@ -23,6 +25,7 @@ export const UserAvatar = ({
   email,
   image,
   className,
+  userId,
   ...props
 }: UserAvatarProps) => {
   const handleSignOut = async () => {
@@ -46,6 +49,12 @@ export const UserAvatar = ({
           <p className="text-muted-foreground text-xs">{email}</p>
         </div>
         <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link href={`/user/${userId}`} className="flex items-center gap-2">
+            <User className="h-4 w-4" />
+            My Profile
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={handleSignOut}>
           <LogOut className="h-4 w-4" />
           Sign Out
