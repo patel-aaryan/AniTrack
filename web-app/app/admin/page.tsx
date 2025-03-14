@@ -2,25 +2,19 @@
 
 import { useEffect, useState } from "react"
 
+import { FilterType } from "@/types/admin"
 import { IAnime } from "@/types/anime"
-import { fetchAnime } from "@/server/queries/admin"
-import { Button } from "@/components/ui/button"
+import { fetchAnime, filterAnimes } from "@/server/queries/admin"
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import SearchForm from "@/components/search-form"
-import VerifyPopup from "@/components/verify-popup"
-
-// type FilterType = "all" | "verified" | "unverified"
+  AdminFilters,
+  AdminTable,
+  SearchForm,
+  VerifyPopup,
+} from "@/components/admin"
 
 export default function Admin() {
   const [animeData, setAnimeData] = useState<IAnime[]>()
-  // const [activeFilter, setActiveFilter] = useState<FilterType>("all")
+  const [activeFilter, setActiveFilter] = useState<FilterType>("all")
 
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [dialogHeader, setDialogHeader] = useState("")
@@ -69,13 +63,28 @@ export default function Admin() {
     setIsDialogOpen(true)
   }
 
-  const handleFilter = async (query: string) => {
+  const handleSearchFilter = async (query: string) => {
     const data = await fetchAnime()
 
     const filteredData = data?.filter((anime) =>
       anime.name.toLowerCase().includes(query.toLowerCase())
     )
     setAnimeData(filteredData)
+  }
+
+  const handleFilters = async (filter: FilterType) => {
+    setActiveFilter(filter)
+
+    if (filter === "all") {
+      const data = await fetchAnime()
+      setAnimeData(data)
+    } else if (filter === "verified") {
+      const data = await filterAnimes({ is_verified: true })
+      setAnimeData(data)
+    } else if (filter === "unverified") {
+      const data = await filterAnimes({ is_verified: false })
+      setAnimeData(data)
+    }
   }
 
   const handleConfirm = async (verify: boolean) => {
@@ -101,7 +110,7 @@ export default function Admin() {
     <div className="container mx-auto p-6">
       <h1 className="text-2xl font-bold mb-6">Anime Admin Panel</h1>
 
-      <SearchForm handleFilter={handleFilter} />
+      <SearchForm handleFilter={handleSearchFilter} />
 
       <VerifyPopup
         id={selectedAnimeId}
@@ -114,54 +123,12 @@ export default function Admin() {
         handleConfirm={handleConfirm}
       />
 
-      <div className="border rounded-md mt-4">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Title</TableHead>
-              <TableHead>Verified</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {animeData.length > 0 ? (
-              animeData.map((anime) => (
-                <TableRow key={anime.id}>
-                  <TableCell className="font-medium">{anime.name}</TableCell>
-                  <TableCell>
-                    <span
-                      className={`px-2 py-1 text-xs font-medium rounded-full 
-                        ${
-                          anime.is_verified
-                            ? "bg-green-100 text-green-800"
-                            : "bg-red-100 text-red-800"
-                        }`}
-                    >
-                      {anime.is_verified ? "Verified" : "Unverified"}
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      variant={anime.is_verified ? "destructive" : "default"}
-                      size="sm"
-                      className="w-1/3"
-                      onClick={() => handleClick(anime)}
-                    >
-                      {anime.is_verified ? "Delete" : "Verify"}
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={5} className="text-center py-4">
-                  No anime found matching your search criteria
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
+      <AdminFilters
+        activeFilter={activeFilter}
+        onFilterChange={handleFilters}
+      />
+
+      <AdminTable animeData={animeData} handleClick={handleClick} />
     </div>
   )
 }

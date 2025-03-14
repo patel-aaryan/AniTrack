@@ -24,7 +24,7 @@ interface VerifyPopupProps {
   handleConfirm: (verify: boolean) => Promise<void>
 }
 
-export default function VerifyPopup({
+export function VerifyPopup({
   id,
   isDialogOpen,
   setIsDialogOpen,
