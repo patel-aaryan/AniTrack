@@ -9,14 +9,18 @@ export async function fetchAnime(): Promise<IAnime[]> {
   return result.data
 }
 
-export async function filterAnimes(
-  name?: string,
+interface FilterAnimesParams {
+  name?: string
   is_verified?: boolean
+}
+
+export async function filterAnimes(
+  body: FilterAnimesParams
 ): Promise<IAnime[]> {
   const response = await fetch("/api/anime?limit=100&?offset=0", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, is_verified }),
+    body: JSON.stringify(body),
   })
   const result = await response.json()
   return result.data

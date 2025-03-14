@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { X } from "lucide-react" // Import X icon from lucide-react
+import { X } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -10,7 +10,7 @@ interface SearchFormProps {
   handleFilter: (query: string) => void
 }
 
-export default function SearchForm({ handleFilter }: SearchFormProps) {
+export function SearchForm({ handleFilter }: SearchFormProps) {
   const [query, setQuery] = useState("")
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

@@ -3,6 +3,12 @@
 # Change to the web-app directory
 cd web-app
 
-# Use the full path to npm
-export PATH="/usr/local/bin:$PATH"
-/usr/local/bin/npm run lint-staged
+# Check if running on Windows
+if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "win32" ] || [ "$OSTYPE" = "cygwin" ]; then
+    # Windows - use npm directly
+    npm run lint-staged
+else
+    # Unix/Linux/macOS - use full path to npm
+    export PATH="/usr/local/bin:$PATH"
+    /usr/local/bin/npm run lint-staged
+fi
