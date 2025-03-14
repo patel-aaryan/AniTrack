@@ -5,6 +5,7 @@ import { Star } from "lucide-react"
 import { getAnimeById } from "@/server/queries/anime"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
+import { AnimeReviewSection } from "./review-section"
 
 export default async function AnimePage({
   params,
@@ -22,7 +23,7 @@ export default async function AnimePage({
   }
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto space-y-6">
         <Card className="overflow-hidden">
           <div className="md:flex">
             <div className="md:w-1/3">
@@ -72,6 +73,8 @@ export default async function AnimePage({
             </div>
           </div>
         </Card>
+        {}
+        <AnimeReviewSection animeId={id} />
       </div>
     </div>
   )
