@@ -57,7 +57,7 @@ Before setting up the application, ensure you have the following installed:
   ```
 
 ## Production dataset
-- Note: **Production dataset already been generated**. But if you want to generate it again, run the `clean_data.py` script (note: `pandas` is installed).
+- Note: **Production dataset already been generated**. But if you want to generate it again, run the `clean_data.py` script (note: `pandas` must be installed).
 - The tables have already been created in Neon so to load the production dataset into the database, run 
 
    ```bash
