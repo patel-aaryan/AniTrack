@@ -1,7 +1,12 @@
 import { IAnime } from "@/types/anime"
 
-export async function fetchAnime(): Promise<IAnime[]> {
-  const response = await fetch("/api/anime?limit=100&?offset=0", {
+type AnimeResponse = {
+  rows: IAnime[]
+  count: number
+}
+
+export async function fetchAnime(offset = 0): Promise<AnimeResponse> {
+  const response = await fetch(`/api/anime?limit=100&offset=${offset}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   })
@@ -15,9 +20,10 @@ interface FilterAnimesParams {
 }
 
 export async function filterAnimes(
+  offset = 0,
   body: FilterAnimesParams
-): Promise<IAnime[]> {
-  const response = await fetch("/api/anime?limit=100&?offset=0", {
+): Promise<AnimeResponse> {
+  const response = await fetch(`/api/anime?limit=100&offset=${offset}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),

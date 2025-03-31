@@ -3,14 +3,19 @@
 import { useState } from "react"
 import { X } from "lucide-react"
 
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
 interface SearchFormProps {
   handleFilter: (query: string) => void
+  totalResults: number
 }
 
-export function SearchForm({ handleFilter }: SearchFormProps) {
+export function SearchForm({
+  handleFilter,
+  totalResults = 0,
+}: SearchFormProps) {
   const [query, setQuery] = useState("")
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -24,7 +29,7 @@ export function SearchForm({ handleFilter }: SearchFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2 mb-6">
+    <form onSubmit={handleSubmit} className="flex gap-2">
       <div className="relative max-w-md flex-1">
         <Input
           type="text"
@@ -43,9 +48,16 @@ export function SearchForm({ handleFilter }: SearchFormProps) {
           </button>
         )}
       </div>
-      <Button type="submit" variant="outline">
-        Search
-      </Button>
+      <div className="flex items-center gap-2">
+        <Button type="submit" variant="outline">
+          Search
+        </Button>
+        {totalResults !== undefined && (
+          <Badge variant="secondary" className="ml-1">
+            {totalResults} result{totalResults !== 1 ? "s" : ""}
+          </Badge>
+        )}
+      </div>
     </form>
   )
 }

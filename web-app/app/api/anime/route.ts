@@ -6,21 +6,30 @@ import pool from "@/server/db"
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
     const { searchParams } = new URL(request.url)
-    const limit = parseInt(searchParams.get("limit") || "100", 10)
+    const limit = parseInt(searchParams.get("limit") || "50", 10)
     const offset = parseInt(searchParams.get("offset") || "0", 10)
 
     const { rows } = (await pool.query(
       `
       SELECT *
       FROM anime
-      LIMIT $1 OFFSET $2
+      LIMIT $1 OFFSET $2;
       `,
       [limit, offset]
     )) as { rows: IAnime[] }
 
+    const totalResult = (await pool.query(
+      `
+      SELECT COUNT(*) as count
+      FROM anime;
+      `
+    )) as { rows: { count: string }[] }
+
+    const count = parseInt(totalResult.rows[0].count, 10)
+
     return NextResponse.json({
       success: true,
-      data: rows,
+      data: { rows, count },
     })
   } catch (error) {
     console.error("Error fetching anime:", error)
@@ -42,28 +51,38 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const is_verified = body.is_verified
 
     let query = `SELECT * FROM anime WHERE 1=1`
+    let countQuery = `SELECT COUNT(*) as count FROM anime WHERE 1=1`
     const queryParams = []
 
     if (name !== undefined) {
       queryParams.push(name)
-      query += ` AND name = $${queryParams.length}`
+      query += ` AND name LIKE $${queryParams.length}%`
+      countQuery += ` AND name LIKE $${queryParams.length}%`
     }
 
     if (is_verified !== undefined) {
       queryParams.push(is_verified)
       query += ` AND is_verified = $${queryParams.length}`
+      countQuery += ` AND is_verified = $${queryParams.length}`
     }
 
-    queryParams.push(limit, offset)
-    query += ` LIMIT $${queryParams.length - 1} OFFSET $${queryParams.length}`
+    // Clone the params for the data query (which will add limit/offset)
+    const dataQueryParams = [...queryParams]
+    dataQueryParams.push(limit, offset)
+    query += ` LIMIT $${dataQueryParams.length - 1} OFFSET $${dataQueryParams.length}`
 
-    const { rows } = (await pool.query(query, queryParams)) as {
+    const { rows } = (await pool.query(query, dataQueryParams)) as {
       rows: IAnime[]
     }
 
+    const countResult = (await pool.query(countQuery, queryParams)) as {
+      rows: { count: string }[]
+    }
+    const count = parseInt(countResult.rows[0].count, 10)
+
     return NextResponse.json({
       success: true,
-      data: rows,
+      data: { rows, count },
     })
   } catch (error) {
     console.error("Error fetching anime:", error)
