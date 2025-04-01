@@ -1,8 +1,8 @@
-import pool from "../db"
-
 import "server-only"
 
-import { IAnimePreview } from "@/types/anime"
+import { IAnimePreview, WatchedStatus } from "@/types/anime"
+import { auth } from "@/lib/auth"
+import pool from "../db"
 
 export async function getTopAnime(
   limit: number = 100,
@@ -55,7 +55,7 @@ export async function getAnimeById(id: number): Promise<IAnimeDetails | null> {
       anime.id, 
       anime.name,
       anime.description, 
-      anime.image_url, 
+      anime.image_url AS image, 
       AVG(reviews.rating) AS avg_rating,
       COALESCE(
         JSONB_AGG(
@@ -83,4 +83,25 @@ export async function getAnimeById(id: number): Promise<IAnimeDetails | null> {
   )
 
   return rows[0] || null
+}
+
+export async function getAnimeUserStatus(animeId: number) {
+  const session = await auth()
+  if (!session) {
+    throw new Error("User not authenticated")
+  }
+  const userId = session.user.id
+  const { rows } = await pool.query(
+    `
+    SELECT status FROM user_anime_status WHERE anime_id = $1 AND user_id = $2
+    `,
+    [animeId, userId]
+  )
+
+  if (rows.length === 0) {
+    return null
+  }
+
+  // convert status to enum
+  return rows[0].status as WatchedStatus
 }

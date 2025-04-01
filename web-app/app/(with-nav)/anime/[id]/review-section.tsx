@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react"
 import { useSession } from "next-auth/react"
 
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { AnimeReview } from "@/components/anime-review"
 
@@ -54,23 +53,7 @@ export function AnimeReviewSection({ animeId }: AnimeReviewSectionProps) {
       </Card>
     )
   }
-  if (status === "unauthenticated") {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Your Review</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-center py-6">
-            <p className="mb-4">Sign in to leave a review</p>
-            <Button asChild>
-              <a href="/login">Sign In</a>
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    )
-  }
+
   return (
     <AnimeReview
       animeId={animeId}

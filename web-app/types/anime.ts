@@ -22,3 +22,9 @@ export interface IAnime {
   image_url: string
   is_verified: boolean
 }
+
+export enum WatchedStatus {
+  Watching = 1,
+  Completed = 2,
+  Wishlist = 3,
+}

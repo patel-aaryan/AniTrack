@@ -2,10 +2,12 @@ import Image from "next/image"
 import { notFound } from "next/navigation"
 import { Star } from "lucide-react"
 
+import { auth } from "@/lib/auth"
 import { getAnimeById } from "@/server/queries/anime"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { AnimeReviewSection } from "./review-section"
+import { WatchedStatusSection } from "./watched-status-section"
 
 export default async function AnimePage({
   params,
@@ -17,6 +19,7 @@ export default async function AnimePage({
   if (isNaN(id)) {
     notFound()
   }
+  const session = await auth()
   const anime = await getAnimeById(id)
   if (!anime) {
     notFound()
@@ -29,7 +32,7 @@ export default async function AnimePage({
             <div className="md:w-1/3">
               <div className="relative h-[400px]">
                 <Image
-                  src={anime.image_url}
+                  src={anime.image}
                   alt={anime.name}
                   className="object-cover"
                   fill
@@ -73,8 +76,13 @@ export default async function AnimePage({
             </div>
           </div>
         </Card>
-        {}
-        <AnimeReviewSection animeId={id} />
+
+        {session && (
+          <div className="flex flex-col gap-4">
+            <WatchedStatusSection animeId={id} />
+            <AnimeReviewSection animeId={id} />
+          </div>
+        )}
       </div>
     </div>
   )
