@@ -69,8 +69,6 @@ export default async function UserPage({
       </div>
 
       <div className="flex-1">
-        <h3 className="text-lg font-semibold">About Me</h3>
-
         <div className="grid grid-cols-3 gap-4 mt-6">
           <div className="flex flex-col items-center p-3 bg-muted rounded-lg">
             <span className="text-2xl font-bold">
