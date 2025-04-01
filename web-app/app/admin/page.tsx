@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 
 import { FilterType } from "@/types/admin"
 import { IAnime } from "@/types/anime"
@@ -22,7 +22,7 @@ export default function Admin() {
 
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [dialogHeader, setDialogHeader] = useState("")
-  const [dialogDesc, setDialogDesc] = useState<React.ReactNode | undefined>()
+  const [dialogDesc, setDialogDesc] = useState<ReactNode | undefined>()
   const [yesText, setYesText] = useState("")
   const [noText, setNoText] = useState("")
   const [selectedAnimeId, setSelectedAnimeId] = useState(-1)

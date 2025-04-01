@@ -1,10 +1,20 @@
 import { NextRequest, NextResponse } from "next/server"
 
 import { IAnime } from "@/types/anime"
+import { auth } from "@/lib/auth"
 import pool from "@/server/db"
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
+    const session = await auth()
+    const isAdmin = session?.user?.is_admin
+    if (!isAdmin) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized" },
+        { status: 401 }
+      )
+    }
+
     const { searchParams } = new URL(request.url)
     const limit = parseInt(searchParams.get("limit") || "50", 10)
     const offset = parseInt(searchParams.get("offset") || "0", 10)
@@ -42,6 +52,15 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
+    const session = await auth()
+    const isAdmin = session?.user?.is_admin
+    if (!isAdmin) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized" },
+        { status: 401 }
+      )
+    }
+
     const { searchParams } = new URL(request.url)
     const limit = parseInt(searchParams.get("limit") || "100", 10)
     const offset = parseInt(searchParams.get("offset") || "0", 10)
@@ -95,6 +114,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
 export async function PATCH(request: NextRequest): Promise<NextResponse> {
   try {
+    const session = await auth()
+    const isAdmin = session?.user?.is_admin
+    if (!isAdmin) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized" },
+        { status: 401 }
+      )
+    }
+
     const { id, verified } = await request.json()
 
     await pool.query(
@@ -118,6 +146,15 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
 
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
   try {
+    const session = await auth()
+    const isAdmin = session?.user?.is_admin
+    if (!isAdmin) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized" },
+        { status: 401 }
+      )
+    }
+
     const { id } = await request.json()
 
     await pool.query(
