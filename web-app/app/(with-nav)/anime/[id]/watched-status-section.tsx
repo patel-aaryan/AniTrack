@@ -6,7 +6,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { StatusButtonGroup } from "./status-button"
 
 export async function WatchedStatusSection({ animeId }: { animeId: number }) {
-  const initialStatus = await getAnimeUserStatus(animeId)
+  const response = await getAnimeUserStatus(animeId)
+  if (response.error) {
+    return null
+  }
+  const initialStatus = response.data
 
   const handleStatusChange = async (status: WatchedStatus | null) => {
     "use server"

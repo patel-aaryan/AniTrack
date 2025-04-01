@@ -88,7 +88,10 @@ export async function getAnimeById(id: number): Promise<IAnimeDetails | null> {
 export async function getAnimeUserStatus(animeId: number) {
   const session = await auth()
   if (!session) {
-    throw new Error("User not authenticated")
+    return {
+      error: "User not authenticated",
+      data: null,
+    }
   }
   const userId = session.user.id
   const { rows } = await pool.query(
@@ -99,9 +102,13 @@ export async function getAnimeUserStatus(animeId: number) {
   )
 
   if (rows.length === 0) {
-    return null
+    return {
+      data: null,
+    }
   }
 
   // convert status to enum
-  return rows[0].status as WatchedStatus
+  return {
+    data: rows[0].status as WatchedStatus,
+  }
 }

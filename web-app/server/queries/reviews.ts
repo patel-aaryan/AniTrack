@@ -1,3 +1,4 @@
+import { auth } from "@/lib/auth"
 import pool from "../db"
 
 import "server-only"
@@ -17,6 +18,7 @@ interface Review {
 interface AnimeReview extends Review {
   user_name: string
   user_image: string | null
+  user_id: string
 }
 
 // add/update review
@@ -45,31 +47,40 @@ export async function addReview({
 
 // get user's review
 export async function getUserReview(
-  animeId: number,
-  userEmail: string
-): Promise<Review | null> {
+  animeId: number
+): Promise<{ data: Review | null; error?: string }> {
+  const session = await auth()
+  if (!session || !session.user) {
+    return {
+      error: "User not authenticated",
+      data: null,
+    }
+  }
   const { rows } = await pool.query(
     `
     SELECT r.rating, r.comment
     FROM reviews r
     JOIN users u ON r.user_id = u.id
-    WHERE r.anime_id = $1 AND u.email = $2
+    WHERE r.anime_id = $1 AND u.id = $2
     `,
-    [animeId, userEmail]
+    [animeId, session.user.id]
   )
 
-  return rows[0] || null
+  return {
+    data: rows[0] || null,
+  }
 }
 
 // get all reviews
 export async function getAnimeReviews(animeId: number): Promise<AnimeReview[]> {
   const { rows } = await pool.query(
     `
-    SELECT 
-      r.rating, 
-      r.comment, 
+    SELECT
+      r.rating,
+      r.comment,
       u.name as user_name,
-      u.image as user_image
+      u.image as user_image,
+      r.user_id as user_id
     FROM reviews r
     JOIN users u ON r.user_id = u.id
     WHERE r.anime_id = $1
@@ -78,7 +89,7 @@ export async function getAnimeReviews(animeId: number): Promise<AnimeReview[]> {
     [animeId]
   )
 
-  return rows
+  return rows as AnimeReview[]
 }
 
 // get avg rating
