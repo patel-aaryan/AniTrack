@@ -1,6 +1,12 @@
 import { Clock, Eye, Heart } from "lucide-react"
 
 import { AnimeStatus } from "@/types/anime"
+import { auth } from "@/lib/auth"
+import {
+  checkFriendshipStatus,
+  getFriendGraphData,
+  getUserFriends,
+} from "@/server/queries/friends"
 import {
   getUserAnimeByStatus,
   getUserAnimeCount,
@@ -8,8 +14,17 @@ import {
 } from "@/server/queries/user"
 import { Avatar } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { AddFriendButton } from "@/components/add-friend-button"
 import { AnimeCardWithReview } from "@/components/anime-card-with-review"
+import { FriendGraph } from "@/components/friend-graph"
 
 export default async function UserPage({
   params,
@@ -18,14 +33,31 @@ export default async function UserPage({
 }) {
   const { userId } = await params
 
-  const [userAnimeCount, userInfo] = await Promise.all([
-    getUserAnimeCount(userId),
-    getUserInfo(userId),
-  ])
+  // Get the current user's session
+  const session = await auth()
+  const currentUserId = session?.user?.id || null
+
+  const [userAnimeCount, userInfo, rawConnections, friendDistances, isFriend] =
+    await Promise.all([
+      getUserAnimeCount(userId),
+      getUserInfo(userId),
+      getFriendGraphData(),
+      getUserFriends(userId),
+      currentUserId ? checkFriendshipStatus(userId, currentUserId) : false,
+    ])
+
+  // Only show Add Friend button if user is logged in and viewing someone else's profile
+  const someoneElsesProfile = currentUserId && currentUserId != userId
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center relative">
+        {someoneElsesProfile && (
+          <div className="absolute top-0 right-0">
+            <AddFriendButton userId={userId} isFriend={isFriend} />
+          </div>
+        )}
+
         <Avatar size={128} src={userInfo.image} alt={userInfo.name} />
         <h1 className="text-2xl font-bold">{userInfo.name}</h1>
         <div className="flex gap-2 mt-2">
@@ -107,6 +139,27 @@ export default async function UserPage({
             )
           })}
       </Tabs>
+
+      <Card className="mt-8">
+        <CardHeader className="pb-3">
+          <div className="flex justify-between items-center">
+            <div>
+              <CardTitle className="text-lg font-semibold">Friends</CardTitle>
+              <CardDescription>{`See ${userInfo.name}'s anime community connections`}</CardDescription>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="w-full bg-muted/30 rounded-md">
+            <FriendGraph
+              userId={userId}
+              userName={userInfo.name}
+              rawConnections={rawConnections}
+              friendDistances={friendDistances}
+            />
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }
