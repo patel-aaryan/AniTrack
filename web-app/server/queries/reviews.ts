@@ -84,7 +84,7 @@ export async function getAnimeReviews(animeId: number): Promise<AnimeReview[]> {
     FROM reviews r
     JOIN users u ON r.user_id = u.id
     WHERE r.anime_id = $1
-    ORDER BY r.rating DESC
+    ORDER BY r.created_at DESC
     `,
     [animeId]
   )

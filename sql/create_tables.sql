@@ -68,6 +68,7 @@ CREATE TABLE IF NOT EXISTS reviews (
     anime_id INT REFERENCES anime(id) ON DELETE CASCADE,
     rating INT CHECK (rating BETWEEN 1 AND 10),
     comment TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id, anime_id)
 );
 
