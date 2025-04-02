@@ -163,7 +163,7 @@ export default async function UserPage({
         </CardContent>
       </Card>
 
-      {currentUserId && currentUserId === userId && (
+      {currentUserId && String(currentUserId) === String(userId) && (
         <Card className="mt-8">
           <CardHeader className="pb-3">
             <div className="flex justify-between items-center">
