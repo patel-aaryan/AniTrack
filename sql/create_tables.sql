@@ -52,6 +52,8 @@ CREATE TABLE IF NOT EXISTS anime (
     )
 );
 
+CREATE INDEX idx_anime_name_search ON anime USING GIN (to_tsvector('english', name));
+
 CREATE TABLE IF NOT EXISTS genres (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) UNIQUE NOT NULL

@@ -32,6 +32,8 @@ LEFT JOIN
     anime_genre ON anime.id = anime_genre.anime_id
 LEFT JOIN
     genres ON anime_genre.genre_id = genres.id
+WHERE
+    anime.is_verified = true
 GROUP BY 
     anime.id, anime.name, anime.image_url
 ORDER BY 

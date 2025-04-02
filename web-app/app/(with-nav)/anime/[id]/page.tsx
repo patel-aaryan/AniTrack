@@ -9,8 +9,6 @@ import { CommunityReviewSection } from "./community-review-section"
 import { UserReviewSection } from "./user-review-section"
 import { WatchedStatusSection } from "./watched-status-section"
 
-//import { ST } from "next/dist/shared/lib/utils"
-
 export default async function AnimePage({
   params,
 }: {
