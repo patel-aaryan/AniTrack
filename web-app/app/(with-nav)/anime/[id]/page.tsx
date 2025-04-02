@@ -14,7 +14,7 @@ import { WatchedStatusSection } from "./watched-status-section"
 export default async function AnimePage({
   params,
 }: {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }) {
   const resolvedParams = await Promise.resolve(params)
   const id = parseInt(resolvedParams.id)

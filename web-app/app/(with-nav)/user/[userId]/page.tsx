@@ -72,15 +72,15 @@ export default async function UserPage({
         <div className="grid grid-cols-3 gap-4 mt-6">
           <div className="flex flex-col items-center p-3 bg-muted rounded-lg">
             <span className="text-2xl font-bold">
-              {userAnimeCount[AnimeStatus.Completed]}
-            </span>
-            <span className="text-sm text-muted-foreground">Completed</span>
-          </div>
-          <div className="flex flex-col items-center p-3 bg-muted rounded-lg">
-            <span className="text-2xl font-bold">
               {userAnimeCount[AnimeStatus.Watching]}
             </span>
             <span className="text-sm text-muted-foreground">Watching</span>
+          </div>
+          <div className="flex flex-col items-center p-3 bg-muted rounded-lg">
+            <span className="text-2xl font-bold">
+              {userAnimeCount[AnimeStatus.Completed]}
+            </span>
+            <span className="text-sm text-muted-foreground">Completed</span>
           </div>
           <div className="flex flex-col items-center p-3 bg-muted rounded-lg">
             <span className="text-2xl font-bold">
