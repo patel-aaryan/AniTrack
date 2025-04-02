@@ -32,7 +32,7 @@ export default function SearchForm({ initialQuery }: Props) {
         type="text"
         value={searchInput}
         onChange={(e) => setSearchInput(e.target.value)}
-        placeholder="Type anime name..."
+        placeholder="Type an anime name..."
         className="flex-1 border border-gray-300 rounded p-2"
       />
       <Button type="submit">

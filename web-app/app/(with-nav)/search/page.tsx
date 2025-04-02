@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 
 import { searchAnime } from "@/server/queries/anime"
 import {
@@ -37,14 +38,21 @@ type Anime = {
 
 const AnimeCard = ({ anime }: { anime: Anime }) => {
   return (
-    <Card className="flex gap-4">
-      <Image src={anime.image_url} alt={anime.name} width={100} height={100} />
-      <CardHeader>
-        <CardTitle>{anime.name}</CardTitle>
-        <CardDescription className="line-clamp-3">
-          {anime.description}
-        </CardDescription>
-      </CardHeader>
-    </Card>
+    <Link href={`/anime/${anime.id}`}>
+      <Card className="flex gap-4">
+        <Image
+          src={anime.image_url}
+          alt={anime.name}
+          width={100}
+          height={100}
+        />
+        <CardHeader>
+          <CardTitle>{anime.name}</CardTitle>
+          <CardDescription className="line-clamp-3">
+            {anime.description}
+          </CardDescription>
+        </CardHeader>
+      </Card>
+    </Link>
   )
 }
