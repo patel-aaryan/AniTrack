@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth"
 import {
   checkFriendshipStatus,
   getFriendGraphData,
+  getPotentialFriends,
   getUserFriends,
 } from "@/server/queries/friends"
 import {
@@ -24,6 +25,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { AddFriendButton } from "@/components/add-friend-button"
 import { AnimeCardWithReview } from "@/components/anime-card-with-review"
+import { FriendCard } from "@/components/friend-card"
 import { FriendGraph } from "@/components/friend-graph"
 
 export default async function UserPage({
@@ -37,14 +39,21 @@ export default async function UserPage({
   const session = await auth()
   const currentUserId = session?.user?.id || null
 
-  const [userAnimeCount, userInfo, rawConnections, friendDistances, isFriend] =
-    await Promise.all([
-      getUserAnimeCount(userId),
-      getUserInfo(userId),
-      getFriendGraphData(),
-      getUserFriends(userId),
-      currentUserId ? checkFriendshipStatus(userId, currentUserId) : false,
-    ])
+  const [
+    userAnimeCount,
+    userInfo,
+    rawConnections,
+    friendDistances,
+    isFriend,
+    potentialFriends,
+  ] = await Promise.all([
+    getUserAnimeCount(userId),
+    getUserInfo(userId),
+    getFriendGraphData(),
+    getUserFriends(userId),
+    currentUserId ? checkFriendshipStatus(userId, currentUserId) : false,
+    currentUserId ? getPotentialFriends(userId) : [],
+  ])
 
   // Only show Add Friend button if user is logged in and viewing someone else's profile
   const someoneElsesProfile = currentUserId && currentUserId != userId
@@ -153,6 +162,44 @@ export default async function UserPage({
           </div>
         </CardContent>
       </Card>
+
+      {currentUserId && (
+        <Card className="mt-8">
+          <CardHeader className="pb-3">
+            <div className="flex justify-between items-center">
+              <div>
+                <CardTitle className="text-lg font-semibold">
+                  Similar Users
+                </CardTitle>
+                <CardDescription>
+                  {potentialFriends.length > 0
+                    ? "Users with similar anime interests"
+                    : "No potential friends found. Add more anime to your list to get suggestions!"}
+                </CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            {potentialFriends.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {potentialFriends.map((friend) => (
+                  <FriendCard
+                    key={friend.id}
+                    id={friend.id}
+                    name={friend.name}
+                    sharedAnimeCount={friend.shared_anime_count}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center text-muted-foreground py-4">
+                No potential friends found. Add more anime to your completed to
+                get suggestions!
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
     </div>
   )
 }
