@@ -121,13 +121,12 @@ export async function getPotentialFriends(
       WHERE user_id = $1
     ),
     existing_friends AS (
-      SELECT user_id2 as friend_id 
+      SELECT DISTINCT CASE 
+        WHEN user_id1 = $1 THEN user_id2 
+        WHEN user_id2 = $1 THEN user_id1 
+      END as friend_id
       FROM friendship 
-      WHERE user_id1 = $1
-      UNION
-      SELECT user_id1 as friend_id 
-      FROM friendship 
-      WHERE user_id2 = $1
+      WHERE user_id1 = $1 OR user_id2 = $1
     )
     SELECT 
       u.id,
