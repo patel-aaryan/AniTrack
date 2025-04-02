@@ -14,6 +14,12 @@ export interface RawConnection {
   user_id2: string
 }
 
+export interface PotentialFriend {
+  id: string
+  name: string
+  shared_anime_count: number
+}
+
 /**
  * Gets all users within 10 degrees of separation from the current user
  */
@@ -102,4 +108,41 @@ export async function checkFriendshipStatus(
     console.error("Error checking friendship status:", error)
     return false
   }
+}
+
+export async function getPotentialFriends(
+  userID: string
+): Promise<PotentialFriend[]> {
+  const { rows } = (await pool.query(
+    `
+    WITH user_anime AS (
+      SELECT anime_id 
+      FROM user_anime_status 
+      WHERE user_id = $1
+    ),
+    existing_friends AS (
+      SELECT user_id2 as friend_id 
+      FROM friendship 
+      WHERE user_id1 = $1
+      UNION
+      SELECT user_id1 as friend_id 
+      FROM friendship 
+      WHERE user_id2 = $1
+    )
+    SELECT 
+      u.id,
+      u.name,
+      COUNT(DISTINCT uas.anime_id) as shared_anime_count
+    FROM users u
+    JOIN user_anime_status uas ON u.id = uas.user_id
+    WHERE uas.anime_id IN (SELECT anime_id FROM user_anime)
+    AND u.id != $1
+    AND u.id NOT IN (SELECT friend_id FROM existing_friends)
+    GROUP BY u.id, u.name
+    ORDER BY shared_anime_count DESC
+    LIMIT 10
+    `,
+    [userID]
+  )) as { rows: PotentialFriend[] }
+  return rows
 }

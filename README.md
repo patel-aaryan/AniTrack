@@ -9,7 +9,7 @@
 - [x] **Adding New Anime**: Contribute to the community by adding new anime titles.
     - Implementation can be found in `./web-app/server/queries/add_anime.ts`
 - [ ] **Find Friends based on Shared Anime**: Helps users discover potential friends based on shared anime interests
-- [ ] **View Watch History**: User can view all anime they watched, are watching, or want to watch.
+- [x] **View Watch History**: User can view all anime they watched, are watching, or want to watch.
 
 ## Prerequisites
 
