@@ -112,3 +112,38 @@ export async function getAnimeUserStatus(animeId: number) {
     data: rows[0].status as WatchedStatus,
   }
 }
+
+export async function getRelativeRank(id: number) {
+  const { rows } = await pool.query(
+    `
+WITH anime_aggregates AS (
+  SELECT
+    reviews.anime_id,
+    AVG(reviews.rating) AS average_rating
+  FROM reviews
+  GROUP BY reviews.anime_id
+),
+ranked_anime AS (
+  SELECT
+    anime.id,
+    anime.name,
+    anime_aggregates.average_rating,
+    RANK() OVER (ORDER BY anime_aggregates.average_rating DESC) AS rating_rank
+  FROM anime
+  JOIN anime_aggregates ON anime.id = anime_aggregates.anime_id
+)
+SELECT rating_rank
+FROM ranked_anime
+WHERE id = $1;
+
+
+    `,
+    [id]
+  )
+
+  if (rows.length === 0) {
+    return null
+  }
+
+  return rows[0]
+}

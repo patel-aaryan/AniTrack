@@ -1,5 +1,7 @@
-//import { ChevronDownIcon } from "@heroicons/react/16/solid"
-//import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid"
+// page.tsx (Server Component)
+
+import Link from "next/link"
+
 import { NavBar } from "@/components/nav-bar"
 import { submitNewAnime } from "./helper"
 
@@ -8,17 +10,13 @@ We need the following fields:
   -> name
   -> description
   -> image_url
-  
-
-
 */
 
-// function to handle form submission
-export default function submit() {
+export default function Submit() {
   return (
     <>
       <NavBar />
-      <div className="p-24">
+      <div className="p-8 pl-48 pr-48">
         <form action={submitNewAnime}>
           <div className="space-y-12">
             <div className="border-b border-gray-900/10 pb-12">
@@ -30,13 +28,13 @@ export default function submit() {
                 <br />
                 <br />
                 Upon completing the form, a moderator will look over your
-                submission and decided whether to verify.
+                submission and decide whether to verify.
               </p>
 
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-4">
                   <label
-                    htmlFor="username"
+                    htmlFor="name"
                     className="block text-sm/6 font-medium text-gray-900"
                   >
                     Name
@@ -47,7 +45,6 @@ export default function submit() {
                         id="name"
                         name="name"
                         type="text"
-                        placeholder="janesmith"
                         className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
                       />
                     </div>
@@ -56,7 +53,7 @@ export default function submit() {
 
                 <div className="col-span-full">
                   <label
-                    htmlFor="about"
+                    htmlFor="desc"
                     className="block text-sm/6 font-medium text-gray-900"
                   >
                     Description
@@ -77,7 +74,7 @@ export default function submit() {
 
                 <div className="sm:col-span-4">
                   <label
-                    htmlFor="username"
+                    htmlFor="img"
                     className="block text-sm/6 font-medium text-gray-900"
                   >
                     Image Url
@@ -88,8 +85,7 @@ export default function submit() {
                         id="img"
                         name="img"
                         type="text"
-                        placeholder="janesmith"
-                        className="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
+                        className="block min-w-0 grow py-1.5 pl0 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6"
                       />
                     </div>
                     <p className="mt-3 text-sm/6 text-gray-600">
@@ -105,16 +101,16 @@ export default function submit() {
           <div className="mt-6 flex items-center justify-start gap-x-6">
             <button
               type="submit"
-              className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="rounded-md bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-sm"
             >
               Save
             </button>
-            <button
-              type="button"
-              className="text-sm/6 font-semibold text-gray-900"
+            <Link
+              className="rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm"
+              href="/"
             >
               Cancel
-            </button>
+            </Link>
           </div>
         </form>
       </div>
