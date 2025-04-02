@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { SearchIcon } from "lucide-react"
 
 import { auth } from "@/lib/auth"
 import { buttonVariants } from "./ui/button"
@@ -15,6 +16,12 @@ export async function NavBar() {
         </Link>
 
         <div className="flex items-center gap-4">
+          <Link
+            className={buttonVariants({ variant: "outline" })}
+            href="/search"
+          >
+            <SearchIcon className="w-4 h-4" />
+          </Link>
           <Link className={buttonVariants({ variant: "default" })} href="/add">
             Add Anime
           </Link>

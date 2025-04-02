@@ -7,5 +7,10 @@ export async function submitNewAnime(formData: FormData) {
   const desc = formData.get("desc") as string
   const img = formData.get("img") as string
 
-  await addAnime(name, desc, img)
+  const retval = await addAnime(name, desc, img)
+
+  if (retval != "valid") {
+  }
+
+  //return retval;
 }

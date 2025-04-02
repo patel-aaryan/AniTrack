@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 
 import { auth } from "@/lib/auth"
-import { addReview, getUserReview } from "@/server/queries/reviews"
+import { addReview } from "@/server/queries/reviews"
 
 export async function POST(
   request: NextRequest,
@@ -45,34 +45,6 @@ export async function POST(
     console.error("Error submitting review:", error)
     return NextResponse.json(
       { message: "Failed to submit review" },
-      { status: 500 }
-    )
-  }
-}
-
-export async function GET(
-  _request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  try {
-    const session = await auth()
-    if (!session || !session.user || !session.user.email) {
-      return NextResponse.json(
-        { message: "You must be logged in to get your review" },
-        { status: 401 }
-      )
-    }
-    const { id } = await params
-    const animeId = parseInt(id)
-    if (isNaN(animeId)) {
-      return NextResponse.json({ message: "Invalid anime ID" }, { status: 400 })
-    }
-    const review = await getUserReview(animeId, session.user.email)
-    return NextResponse.json(review || { rating: 0, comment: "" })
-  } catch (error) {
-    console.error("Error getting user review:", error)
-    return NextResponse.json(
-      { message: "Failed to get user review" },
       { status: 500 }
     )
   }
