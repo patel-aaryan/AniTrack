@@ -13,21 +13,19 @@ interface FriendCardProps {
 
 export function FriendCard({ id, name, sharedAnimeCount }: FriendCardProps) {
   return (
-    <Link
-      href={`/user/${id}`}
-      className="block transition-colors hover:bg-muted/50 rounded-lg"
-    >
-      <Card className="flex items-center p-4 hover:bg-muted/50">
-        <div className="flex-1">
-          <div className="font-medium">{name}</div>
-          <div className="text-sm text-muted-foreground">
-            {sharedAnimeCount} shared anime
-          </div>
+    <Card className="flex items-center p-4">
+      <Link
+        href={`/user/${id}`}
+        className="flex-1 hover:bg-muted/50 rounded-lg transition-colors"
+      >
+        <div className="font-medium">{name}</div>
+        <div className="text-sm text-muted-foreground">
+          {sharedAnimeCount} shared anime
         </div>
-        <div onClick={(e) => e.stopPropagation()}>
-          <AddFriendButton userId={id} isFriend={false} />
-        </div>
-      </Card>
-    </Link>
+      </Link>
+      <div className="ml-4">
+        <AddFriendButton userId={id} isFriend={false} />
+      </div>
+    </Card>
   )
 }
