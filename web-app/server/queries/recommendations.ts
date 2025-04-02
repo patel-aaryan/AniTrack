@@ -69,7 +69,13 @@ export async function getAnimeRecommendations(userId: number) {
             a.name as anime_name,
             a.image_url,
             ROUND(
-                COALESCE(SUM(sur.weighted_rating) / NULLIF(SUM(sur.similarity_score), 0), 0)::numeric, 
+                LEAST(
+                    GREATEST(
+                        COALESCE(SUM(sur.weighted_rating) / NULLIF(SUM(sur.similarity_score), 0), 0)::numeric,
+                        0
+                    ),
+                    10
+                ),
                 2
             ) as predicted_rating
         FROM similar_user_ratings sur

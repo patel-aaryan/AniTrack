@@ -75,7 +75,7 @@ export async function getAnimeById(id: number): Promise<IAnimeDetails | null> {
     LEFT JOIN
       genres ON anime_genre.genre_id = genres.id
     WHERE
-      anime.id = $1
+      anime.id = $1 AND anime.is_verified = true
     GROUP BY 
       anime.id, anime.name, anime.description, anime.image_url
     `,
@@ -111,6 +111,19 @@ export async function getAnimeUserStatus(animeId: number) {
   return {
     data: rows[0].status as WatchedStatus,
   }
+}
+
+export async function searchAnime(query: string) {
+  const { rows } = await pool.query(
+    `
+    SELECT id, name, description, image_url
+    FROM anime
+    WHERE to_tsvector('english', name) @@ plainto_tsquery('english', $1) AND is_verified = true
+    ORDER BY ts_rank(to_tsvector('english', name), plainto_tsquery('english', $1)) DESC;
+    `,
+    [query]
+  )
+  return rows
 }
 
 export async function getRelativeRank(id: number) {
