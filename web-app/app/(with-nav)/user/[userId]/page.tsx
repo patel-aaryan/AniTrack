@@ -163,7 +163,7 @@ export default async function UserPage({
         </CardContent>
       </Card>
 
-      {currentUserId && (
+      {currentUserId && currentUserId === userId && (
         <Card className="mt-8">
           <CardHeader className="pb-3">
             <div className="flex justify-between items-center">
@@ -172,9 +172,7 @@ export default async function UserPage({
                   Similar Users
                 </CardTitle>
                 <CardDescription>
-                  {potentialFriends.length > 0
-                    ? "Users with similar anime interests"
-                    : "No potential friends found. Add more anime to your list to get suggestions!"}
+                  Users with similar anime interests
                 </CardDescription>
               </div>
             </div>
@@ -193,8 +191,8 @@ export default async function UserPage({
               </div>
             ) : (
               <div className="text-center text-muted-foreground py-4">
-                No potential friends found. Add more anime to your completed to
-                get suggestions!
+                No similar users found. Add more anime to your list to get
+                suggestions!
               </div>
             )}
           </CardContent>
