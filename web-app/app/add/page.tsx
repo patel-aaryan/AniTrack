@@ -1,8 +1,8 @@
 // page.tsx (Server Component)
-
 import Link from "next/link"
 
 import { NavBar } from "@/components/nav-bar"
+import ErrorMsg from "./client"
 import { submitNewAnime } from "./helper"
 
 /* 
@@ -90,14 +90,14 @@ export default function Submit() {
                     </div>
                     <p className="mt-3 text-sm/6 text-gray-600">
                       Provided a link to display as the cover art for this anime
-                      submission
+                      submission (must contain http.)
                     </p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
+          <ErrorMsg />
           <div className="mt-6 flex items-center justify-start gap-x-6">
             <button
               type="submit"

@@ -13,7 +13,7 @@ export async function addAnime(
   }
 
   if (!description || description.trim() === "") {
-    return "desc"
+    return "description"
   }
 
   if (
@@ -22,7 +22,7 @@ export async function addAnime(
     !image_url.includes("http") ||
     !image_url.includes(".")
   ) {
-    return "img"
+    return "image url"
   }
   const add_query = `INSERT INTO anime (name, description, image_url, is_verified)
     VALUES ('${name}', '${description}', '${image_url}', FALSE)`
