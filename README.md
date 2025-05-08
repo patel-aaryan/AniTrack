@@ -1,4 +1,4 @@
-# CS 348 Project - Milestone 2
+# AniTrack
 
 ## Features
 
