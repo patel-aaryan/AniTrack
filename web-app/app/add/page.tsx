@@ -1,4 +1,5 @@
 // page.tsx (Server Component)
+import { Suspense } from "react"
 import Link from "next/link"
 
 import { NavBar } from "@/components/nav-bar"
@@ -97,7 +98,9 @@ export default function Submit() {
               </div>
             </div>
           </div>
-          <ErrorMsg />
+          <Suspense fallback={<div></div>}>
+            <ErrorMsg />
+          </Suspense>
           <div className="mt-6 flex items-center justify-start gap-x-6">
             <button
               type="submit"
